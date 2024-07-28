@@ -18,4 +18,5 @@ After breaking up the frame's pixels into an array the size of the pixels on the
 Next, the array is visualized as a heat map with the 2-D array representing the frame of the map while higher numbers correlate to a darker shade of red in that rea, indiciating high concentrations of vehicle activity in those areas throughout the course of the video. This map is accessible through clicking a button at the top of the frame
 
 # **Credits**
+Tensorflow model : https://github.com/tensorflow/tfjs-models/blob/master/coco-ssd/README.md
 
