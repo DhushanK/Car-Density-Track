@@ -1,4 +1,4 @@
-# Car-Density-Track
+# Car-Density-Tracking
 **A computer vision based car identification and tracking system, while also identifying areas of repeat attendance, then representing it with a heat map that perpetually updates**
 
 # **Technologies Used**
