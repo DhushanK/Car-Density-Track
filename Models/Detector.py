@@ -11,13 +11,10 @@ from matplotlib.colors import PowerNorm
 class Detector:
     def __init__(self, videoPath, configPath, modelPath, classesPath):
         self.heatmap_data = [[0 for _ in range(800)] for _ in range(600)]
-
-        # Create a button to view the heatmap
-        # ... (keep the existing initialization code)
         self.videoPath = videoPath #Establishing an connection to the video 
-        self.configPath = configPath #Still establishing a connection but i lowk dont even know what a configuration file is in this context 
-        self.modelPath = modelPath #Path to the trained model (from the internet) 
-        self.classesPath = classesPath #Also a path but I lowk dont know what differentiates the classes it can access and cant 
+        self.configPath = configPath 
+        self.modelPath = modelPath #Path to the trained model 
+        self.classesPath = classesPath
 
         self.net = cv2.dnn_DetectionModel(self.modelPath, self.configPath) #Takes the paths as parameters to access the models 
         self.net.setInputSize(320,320) #The following lines sets various values of the video such as size and red/blue switches 
@@ -25,8 +22,7 @@ class Detector:
         self.net.setInputMean((127.5, 127.5, 127.5))
         self.net.setInputSwapRB(True)
         
-        self.readClasses() #Sets up a line of code
-        # Create Tkinter window and canvas
+        self.readClasses() 
         self.root = tk.Tk()
         self.root.title("Object Tracking")
         self.heatmap_button = tk.Button(self.root, text="View Heatmap", command=self.show_heatmap)
@@ -34,7 +30,6 @@ class Detector:
         self.canvas = tk.Canvas(self.root, width=800, height=600, bg="white")
         self.canvas.pack()
 
-        # Dictionary to store object IDs and their corresponding canvas items
         self.object_rectangles = {}
 
     def update_heatmap(self, x, y):
@@ -42,7 +37,6 @@ class Detector:
         for i in range(max(0, y-radius), min(600, y+(radius+1))):
             for j in range(max(0, x-radius), min(800, x+(radius+1))):
                 self.heatmap_data[i][j] += 1
-    # ... (keep other existing methods)
 
     def readClasses(self):
         with open(self.classesPath, 'r') as f:
@@ -103,14 +97,12 @@ class Detector:
                     
                     x, y, w, h = bbox
                     
-                    # Scale coordinates to fit the canvas
                     canvas_x = int(x * self.canvas.winfo_width() / image.shape[1])
                     canvas_y = int(y * self.canvas.winfo_height() / image.shape[0])
                     canvas_w = int(w * self.canvas.winfo_width() / image.shape[1])
                     canvas_h = int(h * self.canvas.winfo_height() / image.shape[0])
                     self.update_heatmap(canvas_x, canvas_y)
 
-                    # Create or update rectangle on canvas
                     rect_id = f"{classLabel}_{i}"
                     if rect_id in self.object_rectangles:
                         self.canvas.coords(self.object_rectangles[rect_id]['rect'], 
@@ -128,8 +120,6 @@ class Detector:
                         text = self.canvas.create_text(canvas_x + 5, canvas_y + 5,
                                                     text=f"({canvas_x}, {canvas_y})", fill=color, anchor='nw')
                         self.object_rectangles[rect_id] = {'rect': rect, 'text': text}
-            #time.sleep(1)
-    # ... (keep the rest of the method)
 
             self.root.update()
 
@@ -141,4 +131,3 @@ class Detector:
         cv2.destroyAllWindows()
         self.root.mainloop()
 
-# ... (keep the rest of the code)
